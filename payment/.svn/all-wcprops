@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/repositorio/boi/!svn/ver/33985/claudia/branches/user-acquisition/src/payment
+END
+views.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repositorio/boi/!svn/ver/34004/claudia/branches/user-acquisition/src/payment/views.py
+END
+__init__.py
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/repositorio/boi/!svn/ver/33985/claudia/branches/user-acquisition/src/payment/__init__.py
+END
+tests.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repositorio/boi/!svn/ver/33985/claudia/branches/user-acquisition/src/payment/tests.py
+END
+models.py
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/repositorio/boi/!svn/ver/34004/claudia/branches/user-acquisition/src/payment/models.py
+END
+forms.py
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/repositorio/boi/!svn/ver/34004/claudia/branches/user-acquisition/src/payment/forms.py
+END
