@@ -41,3 +41,6 @@ nosetests.xml
 .settings
 .idea
 
+# celery
+celerybeat-schedule
+
