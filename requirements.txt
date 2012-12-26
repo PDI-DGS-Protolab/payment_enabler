@@ -3,3 +3,4 @@ psycopg2==2.4.5
 dj-database-url==0.2.0
 django-celery==3.0.11
 gunicorn==0.15.0
+BeautifulSoup==3.2.1

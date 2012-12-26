@@ -27,13 +27,21 @@ Created on 17/10/2012
 
 import uuid
 
-class PaymentGateway:
-    
-    def get_redirect_rrl(self, profile):
-        pass
+class PaymentGateway(object):
 
-    def recurrent_payment(self, lastOrder, total):
-        pass
+    def __init__(self, model):
+        self.URL = model.endpoint
+
+        self.USERNAME = model.merchant
+        self.PASSWORD = model.password
+
+        self.SUCCESS_CALLBACK = model.success_callback
+        self.ERROR_CALLBACK = model.error_callback
+        self.PENDING_CALLBACK = model.pending_callback
+
+        self.MONEY = 100
+
+        self.order = self.compute_order_id()
 
     def get_order(self):
         return self.order

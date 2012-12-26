@@ -29,27 +29,18 @@ from django.shortcuts import render
 from django.http      import HttpResponseRedirect
 from django.db        import transaction
 
-from forms    import AcquireForm
 from services import initial_payment_url
+from api_format import UserData
 
 @transaction.commit_on_success
-def acquire(request):
-    
-    if request.method == 'POST': 
-        
-        form = AcquireForm(request.POST) 
-        
-        if form.is_valid(): 
-                        
-            url = initial_payment_url(form)
-            
-            return HttpResponseRedirect(url)
-    else:
-        form = AcquireForm() 
+def initial_payment(request):
 
-    return render(request, 'acquire.html', {
-        'form': form,
-    })
+    "Change this mock with the real data provided in the HTTP request"
+    data = UserData("tefaccount111", "Madrid", "Calle de la Hoz", "29332", "Spain", "939393939")
+                        
+    url = initial_payment_url(data)
+            
+    return HttpResponseRedirect(url)
 
 def success(request):
     return render(request, 'success.html', {})

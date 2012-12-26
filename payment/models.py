@@ -28,16 +28,48 @@ Created on 16/10/2012
 from django.contrib.auth.models import User
 from django.db import models
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, unique=True)
+COUNTRIES_CODE = {
+    'Spain': 'ES'
+}
 
-    phone   = models.CharField(max_length = 10)
-    title   = models.CharField(max_length = 10)
-    company = models.CharField(max_length = 150)
-    
-    address     = models.CharField(max_length = 100)
-    postal_code = models.CharField(max_length = 10)
-    city        = models.CharField(max_length = 100)
-    country     = models.CharField(max_length = 20)
-    
-    order_id = models.CharField(unique=True, max_length=10)
+
+
+class PaymentGateway(models.Model):
+
+    name = models.CharField(max_length = 100)
+
+    endpoint = models.CharField(max_length = 200)
+
+    success_callback = models.CharField(max_length = 200)
+    error_callback   = models.CharField(max_length = 200)
+    pending_callback = models.CharField(max_length = 200)
+
+    merchant = models.CharField(max_length = 20)
+    password = models.CharField(max_length = 20)
+
+class Order(models.Model):
+
+    gateway     = models.ForeignKey(PaymentGateway)
+    tef_account = models.CharField(max_length = 20)
+    order       = models.CharField(unique=True, max_length=10)
+
+    STATUS = (
+        ('PENDING',   'PENDING'),
+        ('VALIDATED', 'VALIDATED'),
+        ('ERROR',     'ERROR'),
+        ('CANCELED',  'CANCELED'),
+    )
+
+    status = models.CharField(max_length=10, choices=STATUS, default='PENDING')
+
+class PaymentProcess(models.Model):
+
+    bo_process_id = models.IntegerField(null=True)
+    callback      = models.CharField(max_length = 200, null=True)
+
+    tef_account = models.CharField(max_length = 20)
+    amount      = models.IntegerField()
+    currency    = models.IntegerField()
+    country     = models.IntegerField()
+
+    result = models.TextField()
