@@ -24,23 +24,32 @@ Created on 16/10/2012
 
 @author: mac@tid.es
 '''
-
-from django.shortcuts import render
-from django.http      import HttpResponseRedirect
-from django.db        import transaction
+from django.views.decorators.csrf   import csrf_exempt
+from django.http                    import HttpResponse
+from django.shortcuts               import render
+from django.http                    import HttpResponseRedirect
+from django.db                      import transaction
 
 from services import initial_payment_url
 from api_format import UserData
 
+@csrf_exempt
 @transaction.commit_on_success
 def initial_payment(request):
+    
+    if request.method == 'POST':
 
-    "Change this mock with the real data provided in the HTTP request"
-    data = UserData("tefaccount111", "Madrid", "Calle de la Hoz", "29332", "Spain", "939393939", "mac@tid.es")
-                        
+        post = request.POST
+        data = UserData(post.get('tef_account',"tefaccount111"), post.get('city', "Madrid"),
+                        post.get('address', "Calle de la Hoz"), post.get('postal_code', "29332"),
+                        post.get('country', "Spain"), post.get('phone', "939393939"),
+                        post.get('email', "mac@tid.es"))
+    else:
+        return HttpResponse('<h1>Invalid Method</h1>', status=405)
+
     url = initial_payment_url(data)
-            
     return HttpResponseRedirect(url)
 
 def payment_info(request):
     return render(request, 'payment_info.html', {})
+
