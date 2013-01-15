@@ -39,7 +39,8 @@ class PaymentGateway(object):
         self.ERROR_CALLBACK = model.error_callback
         self.PENDING_CALLBACK = model.pending_callback
 
-        self.MONEY = 100
+        self.MONEY    = 100
+        self.CURRENCY = 'EUR'
 
         self.order = self.compute_order_id()
 

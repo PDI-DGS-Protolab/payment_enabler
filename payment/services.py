@@ -28,13 +28,17 @@ Created on 30/10/2012
 from payment.models import PaymentGateway
 
 from wordpay.charger import Charger
+from adyen.adyen_charger import Adyen_Charger
+
 from models import Order
 
 def initial_payment_url(payment_data):
     # Only WorldPay at the moment. We have to choose which one based on the country
-    gw = PaymentGateway.objects.get(name='WORLDPAY')
+    # gw = PaymentGateway.objects.get(name='WORLDPAY')
 
-    charger = Charger(gw)
+    gw = PaymentGateway.objects.get(name='ADYEN')
+
+    charger = Adyen_Charger(gw)
     
     url = charger.get_redirect_url(payment_data)
 

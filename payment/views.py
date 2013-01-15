@@ -36,17 +36,11 @@ from api_format import UserData
 def initial_payment(request):
 
     "Change this mock with the real data provided in the HTTP request"
-    data = UserData("tefaccount111", "Madrid", "Calle de la Hoz", "29332", "Spain", "939393939")
+    data = UserData("tefaccount111", "Madrid", "Calle de la Hoz", "29332", "Spain", "939393939", "mac@tid.es")
                         
     url = initial_payment_url(data)
             
     return HttpResponseRedirect(url)
 
-def success(request):
-    return render(request, 'success.html', {})
-
-def pending(request):
-    return render(request, 'pending.html', {})
-
-def error(request):
-    return render(request, 'error.html', {})
+def payment_info(request):
+    return render(request, 'payment_info.html', {})

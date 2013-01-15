@@ -7,6 +7,20 @@ import os
 
 FOLDER = os.getcwd()
 
+########################################################################
+# ADYEN PAYMENT GATEWAY
+########################################################################
+
+ADYEN_MERCHANT_ACCOUNT = "TelefonicaBR"
+ADYEN_MERCHANT_SECRET  = "dev_dgs_1$"
+
+ADYEN_DEFAULT_SKIN = "R0ZYlv9S"
+
+ADYEN_API_USERNAME = "ws_126618@Company.TelefonicaDigital"
+ADYEN_API_PASSWORD = "dev_dgs_1$"
+
+########################################################################
+
 # Django settings for payment_enabler project.
 
 DEBUG = True

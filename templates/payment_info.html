@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Choose payment method{% endblock %}
+
+{% block content %}
+
+    <div id="subscribe-form">
+
+	    <h3>Please select your preferred payment method:</h3>
+
+        <form method="post" action="acquire" class="top bottom">
+
+            {% csrf_token %}
+
+            <label>Payment method:</label>
+            <select>
+              <option value="cc">Credit card</option>
+              <option value="phone">Telephone bill</option>
+            </select>
+
+            <br />
+
+            <label>Value:</label>
+            <input type="text">
+
+            <div class="center">
+                <button>Continue</button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

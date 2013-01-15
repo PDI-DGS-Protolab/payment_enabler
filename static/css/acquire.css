@@ -1,0 +1,34 @@
+#subscribe-form form p {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+#subscribe-form .errorlist {
+	padding-top: 0px;
+	color: red;
+}
+
+.top  {
+    padding-top: 20px;
+}
+
+.bottom  {
+    padding-bottom: 20px;
+}
+.center  {
+    text-align: right;
+    padding-top: 10px;
+}
+
+
+#subscribe-form label {
+    padding-bottom: 10px;
+}
+
+#subscribe-form .no-border {
+	border: 0px;
+}
+
+#subscribe-form .no-border {
+	border: 0px;
+}
