@@ -48,6 +48,7 @@ class PaymentGateway(models.Model):
     password = models.CharField(max_length = 20)
 
     class_name = models.CharField(max_length = 50)
+    country    = models.CharField(max_length = 3)
 
 class Order(models.Model):
 
