@@ -25,7 +25,7 @@ Created on 31/10/2012
 @author: mac@tid.es
 '''
 
-from payment.wordpay.charger import Charger
+from payment.wordpay.worldpay_charger import Charger
 
 def charge(json):
 

@@ -47,6 +47,8 @@ class PaymentGateway(models.Model):
     merchant = models.CharField(max_length = 20)
     password = models.CharField(max_length = 20)
 
+    class_name = models.CharField(max_length = 50)
+
 class Order(models.Model):
 
     gateway     = models.ForeignKey(PaymentGateway)

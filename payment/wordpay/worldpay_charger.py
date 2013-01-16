@@ -34,12 +34,12 @@ from payment.gateway_interface.PaymentGateway import PaymentGateway
 
 from payment.models import COUNTRIES_CODE
 
-class Charger (PaymentGateway):
+class Worldpay_Charger (PaymentGateway):
 
     def __init__(self, model):
         self.RECURRENT_USERNAME = "GLOBALBILLINGEURREC"
         self.RECURRENT_PASSWORD = "xml2012launch"
-        super(Charger, self).__init__(model)
+        super(Worldpay_Charger, self).__init__(model)
 
     def get_response_document(self, xml, username, password):
 		

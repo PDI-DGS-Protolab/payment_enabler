@@ -6,7 +6,9 @@
               "error_callback": "http://payment-enabler.herokuapp.com/error",
               "success_callback": "http://payment-enabler.herokuapp.com/success",
               "password": "xml2012launch",
-              "pending_callback": "http://payment-enabler.herokuapp.com/pending"
+              "pending_callback": "http://payment-enabler.herokuapp.com/pending",
+              "class_name": 'Worldpay_Charger',
+              "country": "ES"
             }
   },
   {"pk": 2,
@@ -17,7 +19,9 @@
               "error_callback": "http://payment-enabler.herokuapp.com/error",
               "success_callback": "http://payment-enabler.herokuapp.com/success",
               "password": "",
-              "pending_callback": "http://payment-enabler.herokuapp.com/pending"
+              "pending_callback": "http://payment-enabler.herokuapp.com/pending",
+               "class_name": 'Adyen_Charger',
+              "country": "BR"
             }
   }
 ]
