@@ -11,13 +11,13 @@ FOLDER = os.getcwd()
 # ADYEN PAYMENT GATEWAY
 ########################################################################
 
-ADYEN_MERCHANT_ACCOUNT = "TelefonicaBR"
-ADYEN_MERCHANT_SECRET  = "dev_dgs_1$"
+ADYEN_MERCHANT_ACCOUNT = os.environ.get('ADYEN_MERCHANT_ACCOUNT')
+ADYEN_MERCHANT_SECRET  = os.environ.get('ADYEN_MERCHANT_SECRET')
 
-ADYEN_DEFAULT_SKIN = "R0ZYlv9S"
+ADYEN_DEFAULT_SKIN = os.environ.get('ADYEN_DEFAULT_SKIN')
 
-ADYEN_API_USERNAME = "ws_126618@Company.TelefonicaDigital"
-ADYEN_API_PASSWORD = "dev_dgs_1$"
+ADYEN_API_USERNAME = os.environ.get('ADYEN_API_USERNAME')
+ADYEN_API_PASSWORD = os.environ.get('ADYEN_API_PASSWORD')
 
 ########################################################################
 
