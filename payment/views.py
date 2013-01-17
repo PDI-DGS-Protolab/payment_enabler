@@ -51,7 +51,6 @@ def initial_payment(request):
     
     return HttpResponseRedirect(url)
 
-@csrf_exempt
 def payment_info(request):
     if request.method == 'GET':
         get = request.GET.get
