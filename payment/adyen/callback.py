@@ -36,14 +36,16 @@ def callback(request):
         
         print "Client"
         sys.stdout.flush()
+        
+        return HttpResponse("accepted", mimetype="text/plain")
     
-        if a.is_valid():
-            print "VALID"
-            sys.stdout.flush()
-            return HttpResponse("accepted", mimetype="text/plain")
-        else:
-            print "ERROR"
-            sys.stdout.flush()
-            return HttpResponse("error", mimetype="text/plain")
+#        if a.is_valid():
+#            print "VALID"
+#            sys.stdout.flush()
+#            
+#        else:
+#            print "ERROR"
+#            sys.stdout.flush()
+#            return HttpResponse("error", mimetype="text/plain")
     
     
