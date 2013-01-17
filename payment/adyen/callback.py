@@ -22,8 +22,14 @@ def callback(request):
     if request.method == 'GET':
         return success(request)
     
-    if request.method == 'POST':      
+    if request.method == 'POST': 
+        print "POST"
+        sys.stdout.flush()
+        
         data = request.POST.dict()
+        
+        print "DICT"
+        sys.stdout.flush()
     
         a = Adyen(data)
     
