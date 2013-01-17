@@ -26,8 +26,10 @@ def callback(request):
         a = Adyen(data)
     
         if a.is_valid():
+            print "VALID"
             return HttpResponse("accepted", mimetype="text/plain")
         else:
+            print "ERROR"
             return HttpResponse("error", mimetype="text/plain")
     
     
