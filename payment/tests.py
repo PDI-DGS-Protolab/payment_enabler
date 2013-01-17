@@ -20,13 +20,14 @@ For those usages not covered by the GNU Affero General Public License please con
 """  
 
 """
-Created on 14/11/2012
+Created on 16/01/2013
 
 @author: mac@tid.es
 """
 
 import manage
 
+# Loading environment variables prior to initialice django framework
 manage.read_env('../.env')
 
 from django.test import TestCase
@@ -37,7 +38,7 @@ from payment.adyen.adyen_charger import Adyen_Charger
 
 class TestGenerator(TestCase):
     
-    def test_recurrent_payment(self):
+    def test_adyen_recurrent_payment(self):
         
         order_data = OrderData(total=100, currency="EUR", recurrent_order="", statement="Testing statement")
         user_data  = UserData(tef_account="tefaccount111", city="", address="", postal_code="", country="", phone="", email="foobar@example.com")
