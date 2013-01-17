@@ -42,7 +42,7 @@ def initial_payment(request):
         post = request.POST
         data = UserData(post.get('tef_account',"tefaccount111"), post.get('city', "Madrid"),
                         post.get('address', "Calle de la Hoz"), post.get('postal_code', "29332"),
-                        post.get('country', "ES"), post.get('phone', "939393939"),
+                        post.get('country', "BR"), post.get('phone', "939393939"),
                         post.get('email', "mac@tid.es"))
     else:
         return HttpResponse('<h1>Invalid Method</h1>', status=405)

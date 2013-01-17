@@ -29,20 +29,19 @@ import urllib2
 
 from BeautifulSoup import BeautifulSoup
 
-from payment.wordpay.payloads import FIRST_PAYMENT_PAYLOAD, RECURRENT_PAYMENT_PAYLOAD
+from payment.worldpay.payloads import FIRST_PAYMENT_PAYLOAD, RECURRENT_PAYMENT_PAYLOAD
 from payment.gateway_interface.PaymentGateway import PaymentGateway
-
-from payment.models import COUNTRIES_CODE
 
 class Worldpay_Charger (PaymentGateway):
 
     def __init__(self, model):
+        
         self.RECURRENT_USERNAME = "GLOBALBILLINGEURREC"
         self.RECURRENT_PASSWORD = "xml2012launch"
         super(Worldpay_Charger, self).__init__(model)
 
     def get_response_document(self, xml, username, password):
-		
+        
         password_mgr = urllib2.HTTPPasswordMgrWithDefaultRealm()
         password_mgr.add_password(None, self.URL, username, password)
 
@@ -72,9 +71,7 @@ class Worldpay_Charger (PaymentGateway):
             return None
 
     def get_redirect_url(self, data):
-
-        country_code = COUNTRIES_CODE[data.country]
-
+        
         xml = FIRST_PAYMENT_PAYLOAD % {
                                         "merchantCode" : self.USERNAME,
                                         "fillmoney": self.MONEY,
@@ -82,7 +79,7 @@ class Worldpay_Charger (PaymentGateway):
                                         "city" : data.city,
                                         "address" : data.address,
                                         "postal_code" : data.postal_code,
-                                        "country": country_code,
+                                        "country": data.country,
                                         "phone": data.phone
                                       }
 

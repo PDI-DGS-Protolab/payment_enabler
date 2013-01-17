@@ -27,10 +27,9 @@ Created on 30/10/2012
 
 from payment.models import PaymentGateway
 
-from wordpay.worldpay_charger import Worldpay_Charger
-from adyen.adyen_charger import Adyen_Charger
-
 from models import Order
+
+import importlib
 
 def initial_payment_url(payment_data):
     country_code = payment_data.country
@@ -43,11 +42,9 @@ def initial_payment_url(payment_data):
     # If several, getting the first one
     gw = gws[0]
 
-    import importlib
-    my_module = importlib.import_module('payment.wordpay.worldpay_charger')
-    getattr(my_module, "Worldpay_Charger")(gw)
-
-    charger = Adyen_Charger(gw)
+    charger_module = importlib.import_module(gw.module_name)
+    
+    charger = getattr(charger_module, gw.class_name)(gw)
 
     url = charger.get_redirect_url(payment_data)
 

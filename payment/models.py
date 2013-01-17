@@ -25,14 +25,7 @@ Created on 16/10/2012
 @author: mac@tid.es
 '''
 
-from django.contrib.auth.models import User
 from django.db import models
-
-COUNTRIES_CODE = {
-    'Spain': 'ES'
-}
-
-
 
 class PaymentGateway(models.Model):
 
@@ -47,7 +40,9 @@ class PaymentGateway(models.Model):
     merchant = models.CharField(max_length = 20)
     password = models.CharField(max_length = 20)
 
-    class_name = models.CharField(max_length = 50)
+    module_name = models.CharField(max_length = 200)
+    class_name  = models.CharField(max_length = 50)
+    
     country    = models.CharField(max_length = 3)
 
 class Order(models.Model):
