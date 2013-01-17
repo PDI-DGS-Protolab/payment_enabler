@@ -24,7 +24,7 @@ Created on 16/10/2012
 
 @author: mac@tid.es
 '''
-from django.views.decorators.csrf   import csrf_exempt
+from django.views.decorators.csrf    import csrf_exempt
 from django.http                    import HttpResponse
 from django.shortcuts               import render
 from django.http                    import HttpResponseRedirect
@@ -33,17 +33,17 @@ from django.db                      import transaction
 from services import initial_payment_url
 from api_format import UserData
 
-@csrf_exempt
+
 @transaction.commit_on_success
 def initial_payment(request):
-    
+
     if request.method == 'POST':
 
-        post = request.POST
-        data = UserData(post.get('tef_account',"tefaccount111"), post.get('city', "Madrid"),
-                        post.get('address', "Calle de la Hoz"), post.get('postal_code', "29332"),
-                        post.get('country', "BR"), post.get('phone', "939393939"),
-                        post.get('email', "mac@tid.es"))
+        get = request.POST.get
+        data = UserData(get('tef_account', "tefaccount111"), get('city', "Madrid"),
+                        get('address', "Calle de la Hoz"), get('postal_code', "29332"),
+                        get('country', "BR"), get('phone', "939393939"),
+                        get('email', "mac@tid.es"))
     else:
         return HttpResponse('<h1>Invalid Method</h1>', status=405)
 
@@ -51,6 +51,13 @@ def initial_payment(request):
     
     return HttpResponseRedirect(url)
 
+@csrf_exempt
 def payment_info(request):
-    return render(request, 'payment_info.html', {})
+    if request.method == 'GET':
+        get = request.GET.get
+        return render(request, 'payment_info.html', {'tef_account': get('tef_account', "tefaccount111"), 'city': get('city', "Madrid"),
+            'address': get('address', "Calle de la Hoz"), 'postal_code': get('postal_code', "29332"), 'country': get('country', "BR"),
+            'phone': get('phone', "939393939"), 'email': get('email', "mac@tid.es")})
+    else:
+        return HttpResponse('<h1>Invalid Method</h1>', status=405)
 
