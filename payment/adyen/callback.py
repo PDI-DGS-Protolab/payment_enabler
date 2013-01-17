@@ -29,9 +29,13 @@ def callback(request):
         data = request.POST.dict()
         
         print "DICT"
+        print data
         sys.stdout.flush()
     
         a = Adyen(data)
+        
+        print "Client"
+        sys.stdout.flush()
     
         if a.is_valid():
             print "VALID"
