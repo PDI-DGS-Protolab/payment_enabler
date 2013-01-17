@@ -1,5 +1,6 @@
+
+""" Required data in order to define initial payment """
 class UserData:
-    'Required data in order to define initial payment'
 
     tef_account = 0
     city        = ""
@@ -18,3 +19,15 @@ class UserData:
         self.phone = phone
         self.email = email
 
+""" Data structure that models data regarding an order """
+class OrderData:
+
+    total           = 0
+    recurrent_order = ""
+    statement       = ""
+
+    def __init__(self, total, currency, recurrent_order, statement):
+        self.total           = total
+        self.currency        = currency
+        self.recurrent_order = recurrent_order
+        self.statement       = statement

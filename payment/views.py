@@ -48,6 +48,7 @@ def initial_payment(request):
         return HttpResponse('<h1>Invalid Method</h1>', status=405)
 
     url = initial_payment_url(data)
+    
     return HttpResponseRedirect(url)
 
 def payment_info(request):

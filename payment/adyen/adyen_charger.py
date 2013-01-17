@@ -28,54 +28,47 @@ Created on 14/01/2013
 
 from datetime import datetime
 
-from payment.gateway_interface.PaymentGateway import PaymentGateway
 from py_adyen.adyen import Adyen
 from py_adyen.api import Api
+
+from django.conf import settings
+
+from payment.gateway_interface.PaymentGateway import PaymentGateway
 
 class Adyen_Charger (PaymentGateway):
 
     def __init__(self, model):
         super(Adyen_Charger, self).__init__(model)
 
-    def get_response_document(self, xml, username, password):
-        pass
-
     def get_redirect_url(self, user_data):
 
-        data = {
-            'merchantReference': '1337',           # your internal reference for this payment
+        user_data = {
+            'merchantReference': self.order,
             'paymentAmount': self.MONEY,
             'currencyCode': self.CURRENCY,
             'shipBeforeDate': datetime.now(),
-            'shopperEmail': 'foobar@example.com',  # useful for recurring payments etc.
-            'shopperReference': user_data.tef_account,         # your internal reference for (recurring) lookups etc.
-            'sessionValidity': datetime.now(),     # how long is the payment session valid
-            'recurringContract': 'RECURRING',     # Mark this authorisation for recurring payments
+            'shopperEmail': user_data.email,                   
+            'shopperReference': user_data.tef_account,         
+            'sessionValidity': datetime.now(),                  
+            'recurringContract': 'RECURRING',     
         }
 
-        a = Adyen(data)
-        a.sign()
+        adyen_data = Adyen(user_data)
+        adyen_data.sign()
 
-        form = a.get_form()
+        return adyen_data.get_redirect_url()
 
-#        ws = Api()
-#
-#        statement = 'Subscription Fee October'  # public payment statement for user
-#        reference = self.get_order()
-#
-#        shopper_email     = user_data.email
-#        shopper_reference = user_data.tef_account
-#
-#        amount   = self.MONEY
-#        currency = self.CURRENCY
-#
-#        ws.authorise_recurring_payment(reference, statement, amount, currency, shopper_reference, shopper_email,
-#                                       shopper_ip=None, recurring_detail_reference='LATEST')
+    def recurrent_payment(self, order_data, user_data):
+        ws = Api(settings=settings)
 
-        return a.get_redirect_url()
+        statement = order_data.statement  
+        reference = self.get_order()
 
+        shopper_email     = user_data.email
+        shopper_reference = user_data.tef_account
 
+        amount   = order_data.total
+        currency = order_data.currency
 
-    # total must be a float formatted to two decimal points
-    def recurrent_payment(self, lastOrder, total):
-        pass
+        ws.authorise_recurring_payment(reference, statement, amount, currency, shopper_reference, shopper_email,
+                                       shopper_ip=None, recurring_detail_reference='LATEST')

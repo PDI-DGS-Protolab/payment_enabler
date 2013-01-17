@@ -38,6 +38,7 @@ class Worldpay_Charger (PaymentGateway):
         
         self.RECURRENT_USERNAME = "GLOBALBILLINGEURREC"
         self.RECURRENT_PASSWORD = "xml2012launch"
+        
         super(Worldpay_Charger, self).__init__(model)
 
     def get_response_document(self, xml, username, password):
@@ -70,17 +71,17 @@ class Worldpay_Charger (PaymentGateway):
             print "Errortransaction. HTTP Error code:",e.code
             return None
 
-    def get_redirect_url(self, data):
+    def get_redirect_url(self, user_data):
         
         xml = FIRST_PAYMENT_PAYLOAD % {
                                         "merchantCode" : self.USERNAME,
                                         "fillmoney": self.MONEY,
                                         "ordercode" : self.order,
-                                        "city" : data.city,
-                                        "address" : data.address,
-                                        "postal_code" : data.postal_code,
-                                        "country": data.country,
-                                        "phone": data.phone
+                                        "city" : user_data.city,
+                                        "address" : user_data.address,
+                                        "postal_code" : user_data.postal_code,
+                                        "country": user_data.country,
+                                        "phone": user_data.phone
                                       }
 
         doc = self.get_response_document(xml, self.USERNAME, self.PASSWORD)
@@ -95,10 +96,9 @@ class Worldpay_Charger (PaymentGateway):
 
         return finalUrl
 
-    # total must be a float formatted to two decimal points
-    def recurrent_payment(self, lastOrder, total):
+    def recurrent_payment(self, order_data, user_data):
 
-        integer_total = int(total*100)
+        integer_total = int(order_data.total*100)
 
         order = self.compute_order_id()
 
@@ -106,7 +106,7 @@ class Worldpay_Charger (PaymentGateway):
                                             "merchantCode": self.RECURRENT_USERNAME,
                                             "fillmoney": integer_total,
                                             "ordercode": order,
-                                            "lastordercode": lastOrder,
+                                            "lastordercode": order_data.lastOrder,
                                             "firstMerchantCode": self.USERNAME
                                             }
 

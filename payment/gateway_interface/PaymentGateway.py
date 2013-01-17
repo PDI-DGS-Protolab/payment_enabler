@@ -52,3 +52,14 @@ class PaymentGateway(object):
         
         # Order = ten first characters of uuid
         return uid.hex[:10]
+ 
+    ###########################################################
+    # Should be overwritten by specific implementations of Payment Gateways
+    ########################################################### 
+
+    def get_redirect_url(self, user_data):
+        pass
+    
+    # total must be a float formatted with two decimal points
+    def recurrent_payment(self, order_data, user_data):
+        pass
