@@ -37,7 +37,7 @@ def callback(request):
         print "Client"
         sys.stdout.flush()
         
-        return HttpResponse("accepted", mimetype="text/plain")
+        return HttpResponse("[accepted]", mimetype="text/plain")
     
 #        if a.is_valid():
 #            print "VALID"
