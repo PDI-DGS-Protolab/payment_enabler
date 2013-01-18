@@ -20,6 +20,7 @@ def error(request):
 def callback(request):
     
     if request.method == 'GET':
+        print "COMPLETE THIS CODE. DEAL WITH ALL POSSIBLE STATES and redirecited accordingly!"
         return success(request)
     
     if request.method == 'POST': 
@@ -36,6 +37,8 @@ def callback(request):
         
         print "Client"
         sys.stdout.flush()
+
+        print "Parse data structure and store resutls in database!"
     
         if a.is_valid():
             print "VALID"
