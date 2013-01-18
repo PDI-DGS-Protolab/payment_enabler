@@ -39,11 +39,21 @@ def initial_payment(request):
 
     if request.method == 'POST':
 
-        get = request.POST.get
-        data = UserData(get('tef_account', "tefaccount111"), get('city', "Madrid"),
-                        get('address', "Calle de la Hoz"), get('postal_code', "29332"),
-                        get('country', "BR"), get('phone', "939393939"),
-                        get('email', "mac@tid.es"))
+        params = request.POST.get
+
+        tef_account = params('tef_account', None)
+        city        = params('city', None)
+        address     = params('address', None)
+        postal_code = params('postal_code', None)
+        country     = params('country', None)
+        phone       = params('phone', None)
+        email       = params('email', None)
+
+        if (not tef_account or not city or not address or not postal_code or
+            not country or not phone or not email):
+            return HttpResponse('<h1>Insufficient parameters!</h1>', status=405)
+
+        data = UserData(tef_account, city, address, postal_code, country, phone, email)
     else:
         return HttpResponse('<h1>Invalid Method</h1>', status=405)
 
@@ -52,11 +62,31 @@ def initial_payment(request):
     return HttpResponseRedirect(url)
 
 def payment_info(request):
+
     if request.method == 'GET':
-        get = request.GET.get
-        return render(request, 'payment_info.html', {'tef_account': get('tef_account', "tefaccount111"), 'city': get('city', "Madrid"),
-            'address': get('address', "Calle de la Hoz"), 'postal_code': get('postal_code', "29332"), 'country': get('country', "BR"),
-            'phone': get('phone', "939393939"), 'email': get('email', "mac@tid.es")})
+
+        params = request.GET.get
+
+        tef_account = params('tef_account', "1928jj2js")
+        city        = params('city', "dummy_city")
+        address     = params('address', "dummy_address")
+        postal_code = params('postal_code', "28373")
+        country     = params('country', "ES")
+        phone       = params('phone', "947373737")
+        email       = params('email', "mac@tid.es")
+
+        context = {
+                   'tef_account': tef_account,
+                   'city':        city,
+                   'address':     address,
+                   'postal_code': postal_code,
+                   'country':     country,
+                   'phone':       phone,
+                   'email':       email
+                  }
+
+
+        return render(request, 'payment_info.html', context)
     else:
         return HttpResponse('<h1>Invalid Method</h1>', status=405)
 

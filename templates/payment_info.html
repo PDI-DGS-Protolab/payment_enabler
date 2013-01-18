@@ -13,35 +13,35 @@
             {% csrf_token %}
 
             <label>Payment method:</label>
-            <select>
+            <select name="payment_method">
               <option value="cc">Credit card</option>
               <option value="phone">Telephone bill</option>
             </select>
             <br />
 
             <label>Value:</label>
-            <input type="text">
+            <input name="payment_value" type="text">
 
             <label>User:</label>
-            <input type="text" value={{ tef_account }}>
+            <input name="tef_account" type="text" value={{ tef_account }}>
 
             <label>City:</label>
-            <input type="text" value={{ city }}>
+            <input name="city" type="text" value={{ city }}>
 
             <label>Address:</label>
-            <input type="text" value={{ address }}>
+            <input name="address"vtype="text" value={{ address }}>
 
             <label>Postal code:</label>
-            <input type="text" value={{ postal_code }}>
+            <input name="postal_code" type="text" value={{ postal_code }}>
 
             <label>Country:</label>
-            <input type="text" value={{ country }}>
+            <input name="country" type="text" value={{ country }}>
 
             <label>Phone:</label>
-            <input type="text" value={{ phone }}>
+            <input name="phone" type="text" value={{ phone }}>
 
             <label>Email:</label>
-            <input type="text" value={{ email }}>
+            <input name="email" type="text" value={{ email }}>
 
             <div class="center">
                 <button>Continue</button>

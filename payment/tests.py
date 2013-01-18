@@ -40,8 +40,9 @@ class TestGenerator(TestCase):
     
     def test_adyen_recurrent_payment(self):
         
-        order_data = OrderData(total=100, currency="EUR", recurrent_order="", statement="Testing statement")
-        user_data  = UserData(tef_account="tefaccount111", city="", address="", postal_code="", country="", phone="", email="foobar@example.com")
+        order_data = OrderData(total=500, currency="EUR", recurrent_order="", statement="Testing statement")
+        user_data  = UserData(tef_account="tefaccount111", city="", address="", postal_code="",
+                              country="", phone="", email="foobar@example.com")
         
         gw_data = PaymentGateway.objects.get(name="ADYEN")
         
