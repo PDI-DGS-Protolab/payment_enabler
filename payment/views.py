@@ -24,13 +24,13 @@ Created on 16/10/2012
 
 @author: mac@tid.es
 '''
-from django.views.decorators.csrf    import csrf_exempt
+
 from django.http                    import HttpResponse
 from django.shortcuts               import render
 from django.http                    import HttpResponseRedirect
 from django.db                      import transaction
 
-from services import initial_payment_url
+from services   import initial_payment_url
 from api_format import UserData
 
 
