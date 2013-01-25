@@ -33,6 +33,8 @@ from django.db                      import transaction
 from services   import initial_payment_url, process_recurrent_payment
 from api_format import UserData, OrderData
 
+from django.views.decorators.csrf import csrf_exempt
+
 def payment_menu(request):
 
     if request.method == 'GET':
@@ -89,6 +91,7 @@ def acquire_payment_data(request):
         return HttpResponse('<h1>Invalid Method</h1>', status=405)
 
 @transaction.commit_on_success
+@csrf_exempt
 def recurrent_payment(request):
 
     if request.method == 'POST':
@@ -100,11 +103,12 @@ def recurrent_payment(request):
         currency    = params('currency', None)
         country     = params('country', None)
         statement   = params('statement', None)
+        order_code  = params('order_code', None)
 
-        if (not tef_account or not total or not currency or not country or not statement):
+        if (not tef_account or not total or not currency or not country or not statement or not order_code):
             return HttpResponse('<h1>Insufficient parameters!</h1>', status=405)
 
-        data = OrderData(tef_account, total, currency, country, statement)
+        data = OrderData(tef_account, total, currency, country, statement, order_code)
 
         result = process_recurrent_payment(data)
     
