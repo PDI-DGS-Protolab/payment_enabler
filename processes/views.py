@@ -25,33 +25,40 @@ Created on 30/10/2012
 @author: mac@tid.es
 '''
 
-from payment.models import PaymentGateway
+from django.shortcuts import render
+from django.db        import transaction
+from django.http      import HttpResponse
 
-from models import Order
+from services import start_order_to_cash, sync_first_order_to_cash, start_collections
 
-import importlib
+def index(request):
+    return render(request, 'index.html', {})
 
-def initial_payment_url(payment_data):
-    country_code = payment_data.country
-
-    gws = PaymentGateway.objects.filter(country = country_code)
-
-    if len(gws) == 0:
-        return "/error"
-
-    # If several, getting the first one
-    gw = gws[0]
-
-    charger_module = importlib.import_module(gw.module_name)
+@transaction.commit_on_success
+def launchInvoicing(request):
+    start_order_to_cash()
     
-    charger = getattr(charger_module, gw.class_name)(gw)
+    return render(request, 'invoicing.html', {})
 
-    url = charger.get_redirect_url(payment_data)
+@transaction.commit_on_success
+def launchSyncInvoice(request):
+    sync_first_order_to_cash()
 
-    store_order_details(payment_data.tef_account, charger.get_order(), gw)
+    return render(request, 'invoicing.html', {})
+
+@transaction.commit_on_success
+def chargingCallback(request):
+
+    if request.method == 'GET':
+
+        params = request.GET.get
+
+        data = params('data', None)
+
+        if (not data):
+            return HttpResponse('ERROR',  mimetype="application/json", status=405)
+
+    start_collections(data)
+
+    return HttpResponse('OK',  mimetype="application/json")
     
-    return url
-
-def store_order_details(tef_account, order_id, gateway):
-    order = Order(tef_account=tef_account, order=order_id, gateway=gateway)
-    order.save()

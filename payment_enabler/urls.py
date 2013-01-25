@@ -8,14 +8,21 @@ import settings
 
 urlpatterns = patterns('',
 
-    url(r'^payment_info$', 'payment.views.payment_info'),
-    url(r'^acquire$', 'payment.views.initial_payment'),
+    # payment data acquisition API
+    url(r'^payment_menu$', 'payment_gateways.views.payment_menu'),
+    url(r'^acquire$',      'payment_gateways.views.acquire_payment_data'),
 
-    url(r'^gw/adyen$', 'payment.adyen.callback.callback'),
+    # recurrent payment API
+    url(r'^recurrent$', 'payment_gateways.views.recurrent_payment'),
+    
+    # adyen callback API
+    url(r'^gw/adyen$', 'payment_gateways.adyen.callback.callback'),
 
-    url(r'^gw/worldpay/success$', 'payment.worldpay.callback.success'),
-    url(r'^gw/worldpay/pending$', 'payment.worldpay.callback.pending'),
-    url(r'^gw/worldpay/error$',   'payment.worldpay.callback.error'),
+    # worldpay callback API
+    url(r'^gw/worldpay/success$', 'payment_gateways.worldpay.callback.success'),
+    url(r'^gw/worldpay/pending$', 'payment_gateways.worldpay.callback.pending'),
+    url(r'^gw/worldpay/error$',   'payment_gateways.worldpay.callback.error'),
 
+    # serving static content from development server
     url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes':True}),
 )

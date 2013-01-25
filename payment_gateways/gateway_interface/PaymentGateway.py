@@ -60,6 +60,5 @@ class PaymentGateway(object):
     def get_redirect_url(self, user_data):
         pass
     
-    # total must be a float formatted with two decimal points
-    def recurrent_payment(self, order_data, user_data):
+    def recurrent_payment(self, order_data, master_info):
         pass

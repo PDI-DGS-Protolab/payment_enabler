@@ -31,9 +31,7 @@ from datetime import datetime
 from py_adyen.adyen import Adyen
 from py_adyen.api import Api
 
-from django.conf import settings
-
-from payment.gateway_interface.PaymentGateway import PaymentGateway
+from payment_gateways.gateway_interface.PaymentGateway import PaymentGateway
 
 class Adyen_Charger (PaymentGateway):
 
@@ -58,14 +56,14 @@ class Adyen_Charger (PaymentGateway):
 
         return adyen_data.get_redirect_url()
 
-    def recurrent_payment(self, order_data, user_data):
-        ws = Api(settings=settings)
+    def recurrent_payment(self, order_data, master_info):
+        ws = Api()
 
         statement = order_data.statement  
         reference = self.get_order()
 
-        shopper_email     = user_data.email
-        shopper_reference = user_data.tef_account
+        shopper_email     = master_info.email
+        shopper_reference = master_info.tef_account
 
         amount   = order_data.total
         currency = order_data.currency

@@ -22,13 +22,17 @@ class UserData:
 """ Data structure that models data regarding an order """
 class OrderData:
 
-    total           = 0
-    currency        = ""
-    recurrent_order = ""
-    statement       = ""
+    total       = 0
+    currency    = ""
+    country     = ""
+    statement   = ""
+    tef_account = ""
+    order_code  = ""   
 
-    def __init__(self, total, currency, recurrent_order, statement):
-        self.total           = total
-        self.currency        = currency
-        self.recurrent_order = recurrent_order
-        self.statement       = statement
+    def __init__(self, tef_account, total, currency, country, statement, order_code):
+        self.tef_account = tef_account
+        self.total       = total
+        self.currency    = currency
+        self.country     = country
+        self.statement   = statement
+        self.order_code  = order_code

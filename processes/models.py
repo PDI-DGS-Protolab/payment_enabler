@@ -2,7 +2,7 @@
 #coding=utf-8 
 
 """
-Copyright 2012 Telefonica Investigación y Desarrollo, S.A.U
+Copyright 2013 Telefonica Investigación y Desarrollo, S.A.U
 
 This file is part of Billing_PoC.
 
@@ -20,45 +20,12 @@ For those usages not covered by the GNU Affero General Public License please con
 """ 
 
 '''
-Created on 16/10/2012
+Created on 25/01/2013
 
 @author: mac@tid.es
 '''
 
 from django.db import models
-
-class PaymentGateway(models.Model):
-
-    name = models.CharField(max_length = 100)
-
-    endpoint = models.CharField(max_length = 200)
-
-    success_callback = models.CharField(max_length = 200)
-    error_callback   = models.CharField(max_length = 200)
-    pending_callback = models.CharField(max_length = 200)
-
-    merchant = models.CharField(max_length = 20)
-    password = models.CharField(max_length = 20)
-
-    module_name = models.CharField(max_length = 200)
-    class_name  = models.CharField(max_length = 50)
-    
-    country    = models.CharField(max_length = 3)
-
-class Order(models.Model):
-
-    gateway     = models.ForeignKey(PaymentGateway)
-    tef_account = models.CharField(max_length = 20)
-    order       = models.CharField(unique=True, max_length=10)
-
-    STATUS = (
-        ('PENDING',   'PENDING'),
-        ('VALIDATED', 'VALIDATED'),
-        ('ERROR',     'ERROR'),
-        ('CANCELED',  'CANCELED'),
-    )
-
-    status = models.CharField(max_length=10, choices=STATUS, default='PENDING')
 
 class PaymentProcess(models.Model):
 
@@ -71,3 +38,4 @@ class PaymentProcess(models.Model):
     country     = models.IntegerField()
 
     result = models.TextField()
+

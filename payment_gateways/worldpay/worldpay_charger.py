@@ -29,8 +29,8 @@ import urllib2
 
 from BeautifulSoup import BeautifulSoup
 
-from payment.worldpay.payloads import FIRST_PAYMENT_PAYLOAD, RECURRENT_PAYMENT_PAYLOAD
-from payment.gateway_interface.PaymentGateway import PaymentGateway
+from payloads import FIRST_PAYMENT_PAYLOAD, RECURRENT_PAYMENT_PAYLOAD
+from payment_gateways.gateway_interface.PaymentGateway import PaymentGateway
 
 class Worldpay_Charger (PaymentGateway):
 
@@ -96,17 +96,15 @@ class Worldpay_Charger (PaymentGateway):
 
         return finalUrl
 
-    def recurrent_payment(self, order_data, user_data):
-
-        integer_total = int(order_data.total*100)
+    def recurrent_payment(self, order_data, master_info):
 
         order = self.compute_order_id()
 
         xml = RECURRENT_PAYMENT_PAYLOAD % {
                                             "merchantCode": self.RECURRENT_USERNAME,
-                                            "fillmoney": integer_total,
+                                            "fillmoney": order_data.total,
                                             "ordercode": order,
-                                            "lastordercode": order_data.lastOrder,
+                                            "lastordercode": master_info.recurrent_order_code,
                                             "firstMerchantCode": self.USERNAME
                                             }
 
