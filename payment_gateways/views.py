@@ -37,17 +37,21 @@ from django.views.decorators.csrf import csrf_exempt
 
 def payment_menu(request):
 
-    if request.method == 'GET':
+    if request.method == 'POST':
 
-        params = request.GET.get
+        params = request.POS.get
 
-        tef_account = params('tef_account', "1928jj2js")
-        city        = params('city', "dummy_city")
-        address     = params('address', "dummy_address")
-        postal_code = params('postal_code', "28373")
-        country     = params('country', "ES")
-        phone       = params('phone', "947373737")
-        email       = params('email', "mac@tid.es")
+        tef_account = params('tef_account', None)
+        city        = params('city', None)
+        address     = params('address', None)
+        postal_code = params('postal_code', None)
+        country     = params('country', None)
+        phone       = params('phone', None)
+        email       = params('email', None)
+
+        if (not tef_account or not city or not address or not postal_code or
+            not country or not phone or not email):
+            return HttpResponse('<h1>Insufficient parameters!</h1>', status=405)
 
         context = {
                    'tef_account': tef_account,
