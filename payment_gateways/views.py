@@ -30,12 +30,14 @@ from django.shortcuts               import render
 from django.http                    import HttpResponseRedirect
 from django.db                      import transaction
 
-from services   import initial_payment_url, process_recurrent_payment
+from services   import initial_payment_url, process_recurrent_payment, get_user_data, generate_form_url
 from api_format import UserData, OrderData
 
 from django.views.decorators.csrf import csrf_exempt
 
-def payment_menu(request):
+@transaction.commit_on_success
+@csrf_exempt
+def acquire_service(request):
 
     if request.method == 'POST':
 
@@ -53,40 +55,27 @@ def payment_menu(request):
             not country or not phone or not email):
             return HttpResponse('<h1>Insufficient parameters!</h1>', status=405)
 
-        context = {
-                   'tef_account': tef_account,
-                   'city':        city,
-                   'address':     address,
-                   'postal_code': postal_code,
-                   'country':     country,
-                   'phone':       phone,
-                   'email':       email
-                  }
+        user_data = UserData(tef_account, city, address, postal_code, country, phone, email)
 
-        return render(request, 'payment_info.html', context)
+        url = generate_form_url(user_data)
+
+        return HttpResponseRedirect(url)
+    else:
+        return HttpResponse('<h1>Invalid Method</h1>', status=405)
+
+
+def acquire_form(request, code):
+
+    if request.method == 'GET':
+        return render(request, 'acquire_form.html', {'code': 22} )
     else:
         return HttpResponse('<h1>Invalid Method</h1>', status=405)
 
 @transaction.commit_on_success
-def acquire_payment_data(request):
+def acquire_redirect(request):
 
     if request.method == 'POST':
-
-        params = request.POST.get
-
-        tef_account = params('tef_account', None)
-        city        = params('city', None)
-        address     = params('address', None)
-        postal_code = params('postal_code', None)
-        country     = params('country', None)
-        phone       = params('phone', None)
-        email       = params('email', None)
-
-        if (not tef_account or not city or not address or not postal_code or
-            not country or not phone or not email):
-            return HttpResponse('<h1>Insufficient parameters!</h1>', status=405)
-
-        user_data = UserData(tef_account, city, address, postal_code, country, phone, email)
+        user_data = get_user_data(22)
         
         url = initial_payment_url(user_data)
     

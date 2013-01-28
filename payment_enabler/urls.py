@@ -9,8 +9,9 @@ import settings
 urlpatterns = patterns('',
 
     # payment data acquisition API
-    url(r'^payment_menu$', 'payment_gateways.views.payment_menu'),
-    url(r'^acquire$',      'payment_gateways.views.acquire_payment_data'),
+    url(r'^acquire/service$',  'payment_gateways.views.acquire_service'),
+    url(r'^acquire/form$',     'payment_gateways.views.acquire_form'),
+    url(r'^acquire/redirect$', 'payment_gateways.views.acquire_redirect'),
 
     # recurrent payment API
     url(r'^recurrent$', 'payment_gateways.views.recurrent_payment'),

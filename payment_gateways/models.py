@@ -76,3 +76,16 @@ class Order(models.Model):
 
     status = models.CharField(max_length=10, choices=STATUS, default='PENDING')
     result = models.TextField()
+
+class AcquiredData(models.Model):
+
+    tef_account = models.CharField(max_length = 20)
+    email       = models.EmailField(blank=True)
+
+    city        = models.CharField(max_length = 100)
+    address     = models.CharField(max_length = 200)
+    postal_code = models.CharField(max_length = 10)
+    country     = models.CharField(max_length = 3)
+    phone       = models.CharField(max_length = 10)
+
+    code = models.CharField(max_length=10)

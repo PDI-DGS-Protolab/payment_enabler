@@ -25,9 +25,10 @@ Created on 30/10/2012
 @author: mac@tid.es
 '''
 
-from models import PaymentGateway, MasterInformation, Order
+from models import PaymentGateway, MasterInformation, Order, AcquiredData
 
 import importlib
+import uuid
 
 def initial_payment_url(user_data):
     country_code = user_data.country
@@ -88,3 +89,21 @@ def dynamically_loading_charger(gw):
     charger = getattr(charger_module, gw.class_name)(gw)
     
     return charger
+
+def get_user_data(id):
+    pass
+
+def generate_form_url(user_data):
+    acquired_data = AcquiredData(tef_account=user_data.tef_account,email=user_data.email,
+                                 city=user_data.city, address=user_data.address,
+                                 postal_code=user_data.postal_code, country=user_data.country,
+                                 code=compute_unique_id())
+
+    acquired_data.save()
+
+    return "/acquire/form/" + acquired_data.order
+
+def compute_unique_id():
+    uid = uuid.uuid4()
+    return uid.hex[:10]
+
