@@ -60,7 +60,7 @@ class Adyen_Charger (PaymentGateway):
         ws = Api()
 
         statement = order_data.statement  
-        reference = self.get_order()
+        reference = order_data.order_code
 
         shopper_email     = master_info.email
         shopper_reference = master_info.tef_account

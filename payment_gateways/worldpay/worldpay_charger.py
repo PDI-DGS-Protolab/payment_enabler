@@ -98,7 +98,7 @@ class Worldpay_Charger (PaymentGateway):
 
     def recurrent_payment(self, order_data, master_info):
 
-        order = self.compute_order_id()
+        order = order_data.order_code
 
         xml = RECURRENT_PAYMENT_PAYLOAD % {
                                             "merchantCode": self.RECURRENT_USERNAME,
