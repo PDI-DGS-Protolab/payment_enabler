@@ -27,6 +27,13 @@ Created on 16/10/2012
 
 from django.db import models
 
+STATUS = (
+    ('PENDING',   'PENDING'),
+    ('VALIDATED', 'VALIDATED'),
+    ('ERROR',     'ERROR'),
+    ('CANCELED',  'CANCELED'),
+    )
+
 class PaymentGateway(models.Model):
 
     name = models.CharField(max_length = 100)
@@ -47,13 +54,6 @@ class PaymentGateway(models.Model):
 
 class MasterInformation(models.Model):
 
-    STATUS = (
-        ('PENDING',   'PENDING'),
-        ('VALIDATED', 'VALIDATED'),
-        ('ERROR',     'ERROR'),
-        ('CANCELED',  'CANCELED'),
-    )
-
     gateway     = models.ForeignKey(PaymentGateway)
     
     tef_account = models.CharField(max_length = 20)
@@ -69,8 +69,10 @@ class Order(models.Model):
     currency = models.CharField(max_length = 3)
     country  = models.CharField(max_length = 3)
     
-    order_code = models.CharField(max_length=10)
-    
+    order_code  = models.CharField(max_length=10)
     tef_account = models.CharField(max_length = 20)
 
     statement = models.CharField(max_length = 200)
+
+    status = models.CharField(max_length=10, choices=STATUS, default='PENDING')
+    result = models.TextField()
