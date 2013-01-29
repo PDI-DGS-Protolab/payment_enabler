@@ -88,4 +88,4 @@ class AcquiredData(models.Model):
     country     = models.CharField(max_length = 3)
     phone       = models.CharField(max_length = 10)
 
-    code = models.CharField(max_length=10)
+    token = models.CharField(unique=True, max_length=10)

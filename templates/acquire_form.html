@@ -8,7 +8,7 @@
 
 	    <h3>Please select your preferred payment method:</h3>
 
-        <form method="post" action="acquire" class="top bottom">
+        <form method="post" action="/acquire/redirect" class="top bottom">
 
             {% csrf_token %}
 
@@ -23,7 +23,7 @@
             <input name="payment_value" type="text">
 
             <label>User:</label>
-            <input name="code" type="hidden" value={{ code }}>
+            <input name="token" type="hidden" value={{ code }}>
 
             <div class="center">
                 <button>Continue</button>

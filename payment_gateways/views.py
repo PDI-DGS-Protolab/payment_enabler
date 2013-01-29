@@ -30,7 +30,7 @@ from django.shortcuts               import render
 from django.http                    import HttpResponseRedirect
 from django.db                      import transaction
 
-from services   import initial_payment_url, process_recurrent_payment, get_user_data, generate_form_url
+from services   import initial_payment_url, process_recurrent_payment, generate_form_url
 from api_format import UserData, OrderData
 
 from django.views.decorators.csrf import csrf_exempt
@@ -41,7 +41,7 @@ def acquire_service(request):
 
     if request.method == 'POST':
 
-        params = request.POS.get
+        params = request.POST.get
 
         tef_account = params('tef_account', None)
         city        = params('city', None)
@@ -64,10 +64,10 @@ def acquire_service(request):
         return HttpResponse('<h1>Invalid Method</h1>', status=405)
 
 
-def acquire_form(request, code):
+def acquire_form(request, token):
 
     if request.method == 'GET':
-        return render(request, 'acquire_form.html', {'code': 22} )
+        return render(request, 'acquire_form.html', {'code': token } )
     else:
         return HttpResponse('<h1>Invalid Method</h1>', status=405)
 
@@ -75,9 +75,12 @@ def acquire_form(request, code):
 def acquire_redirect(request):
 
     if request.method == 'POST':
-        user_data = get_user_data(22)
+
+        params = request.POST.get
+
+        token = params('token', None)
         
-        url = initial_payment_url(user_data)
+        url = initial_payment_url(token)
     
         return HttpResponseRedirect(url)
     else:

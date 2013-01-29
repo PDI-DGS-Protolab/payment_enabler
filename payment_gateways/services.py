@@ -25,15 +25,17 @@ Created on 30/10/2012
 @author: mac@tid.es
 '''
 
-from models import PaymentGateway, MasterInformation, Order, AcquiredData
+from models     import PaymentGateway, MasterInformation, Order, AcquiredData
+from api_format import UserData
 
 import importlib
 import uuid
 
-def initial_payment_url(user_data):
-    country_code = user_data.country
+def initial_payment_url(token):
 
-    gws = PaymentGateway.objects.filter(country = country_code)
+    user_data = get_user_data(token)
+
+    gws = PaymentGateway.objects.filter(country = user_data.country)
 
     if len(gws) == 0:
         return "/error"
@@ -90,18 +92,27 @@ def dynamically_loading_charger(gw):
     
     return charger
 
-def get_user_data(id):
-    pass
+def get_user_data(token):
+    acquired_data = AcquiredData.objects.get(token=token)
+
+    user_data = UserData(tef_account=acquired_data.tef_account, address=acquired_data.address,
+                         city=acquired_data.city, country=acquired_data.country,
+                         postal_code=acquired_data.postal_code, email=acquired_data.email,
+                         phone=acquired_data.phone)
+
+    return user_data
 
 def generate_form_url(user_data):
+    token = compute_unique_id()
+
     acquired_data = AcquiredData(tef_account=user_data.tef_account,email=user_data.email,
                                  city=user_data.city, address=user_data.address,
                                  postal_code=user_data.postal_code, country=user_data.country,
-                                 code=compute_unique_id())
+                                 token=token)
 
     acquired_data.save()
 
-    return "/acquire/form/" + acquired_data.order
+    return "/acquire/form/" + token
 
 def compute_unique_id():
     uid = uuid.uuid4()
