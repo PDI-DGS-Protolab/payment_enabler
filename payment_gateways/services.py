@@ -112,7 +112,7 @@ def generate_form_url(user_data):
 
     acquired_data.save()
 
-    return "/acquire/form/" + token
+    return "http://payment-enabler.herokuapp.com/acquire/form/" + token
 
 def compute_unique_id():
     uid = uuid.uuid4()

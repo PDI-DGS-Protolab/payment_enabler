@@ -59,7 +59,7 @@ def acquire_service(request):
 
         url = generate_form_url(user_data)
 
-        return HttpResponseRedirect(url)
+        return HttpResponse(url, content_type='text/plain')
     else:
         return HttpResponse('<h1>Invalid Method</h1>', status=405)
 
