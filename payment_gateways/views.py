@@ -35,11 +35,19 @@ from api_format import UserData, OrderData
 
 from django.views.decorators.csrf import csrf_exempt
 
+import sys
+
 @transaction.commit_on_success
 @csrf_exempt
 def acquire_service(request):
 
+    print "BEFORE"
+    sys.stdout.flush()
+
     if request.method == 'POST':
+
+        print "POST"
+        sys.stdout.flush()
 
         params = request.POST.get
 
@@ -54,6 +62,9 @@ def acquire_service(request):
         if (not tef_account or not city or not address or not postal_code or
             not country or not phone or not email):
             return HttpResponse('<h1>Insufficient parameters!</h1>', status=405)
+
+        print "VALIDATED"
+        sys.stdout.flush()
 
         user_data = UserData(tef_account, city, address, postal_code, country, phone, email)
 
