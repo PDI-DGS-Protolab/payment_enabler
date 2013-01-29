@@ -25,10 +25,11 @@ Created on 16/10/2012
 @author: mac@tid.es
 '''
 
-from django.http                    import HttpResponse
-from django.shortcuts               import render
-from django.http                    import HttpResponseRedirect
-from django.db                      import transaction
+from django.http        import HttpResponse
+from django.shortcuts   import render
+from django.http        import HttpResponseRedirect
+from django.db          import transaction
+from django.utils       import  simplejson
 
 from services   import initial_payment_url, process_recurrent_payment, generate_form_url
 from api_format import UserData, OrderData
@@ -43,13 +44,15 @@ def acquire_service(request):
 
     if request.method == 'POST':
 
-        print "POST"
-        sys.stdout.flush()
-
         params = None
         body = request.body
 
         print body
+        sys.stdout.flush()
+
+        params = simplejson.loads(body)
+
+        print params
         sys.stdout.flush()
 
         tef_account = params('tef_account', None)
