@@ -41,15 +41,16 @@ import sys
 @csrf_exempt
 def acquire_service(request):
 
-    print "BEFORE"
-    sys.stdout.flush()
-
     if request.method == 'POST':
 
         print "POST"
         sys.stdout.flush()
 
-        params = request.POST.get
+        params = None
+        body = request.body
+
+        print body
+        sys.stdout.flush()
 
         tef_account = params('tef_account', None)
         city        = params('city', None)
