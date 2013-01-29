@@ -44,24 +44,20 @@ def acquire_service(request):
 
     if request.method == 'POST':
 
-        params = None
         body = request.body
 
         print body
         sys.stdout.flush()
 
-        params = simplejson.loads(body)
+        json = simplejson.loads(body)
 
-        print params
-        sys.stdout.flush()
-
-        tef_account = params('tef_account', None)
-        city        = params('city', None)
-        address     = params('address', None)
-        postal_code = params('postal_code', None)
-        country     = params('country', None)
-        phone       = params('phone', None)
-        email       = params('email', None)
+        tef_account = json.get('tef_account', None)
+        city        = json.get('city', None)
+        address     = json.get('address', None)
+        postal_code = json.get('postal_code', None)
+        country     = json.get('country', None)
+        phone       = json.get('phone', None)
+        email       = json.get('email', None)
 
         if (not tef_account or not city or not address or not postal_code or
             not country or not phone or not email):
