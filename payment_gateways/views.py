@@ -64,6 +64,13 @@ def acquire_service(request):
             return HttpResponse('<h1>Insufficient parameters!</h1>', status=405)
 
         print "VALIDATED"
+        print tef_account
+        print city
+        print address
+        print postal_code
+        print country
+        print phone
+        print email
         sys.stdout.flush()
 
         user_data = UserData(tef_account, city, address, postal_code, country, phone, email)
