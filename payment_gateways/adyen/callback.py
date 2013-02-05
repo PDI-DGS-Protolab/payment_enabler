@@ -22,12 +22,14 @@ def callback(request):
 
     if request.method == 'GET':
         data = request.GET.dict()
+
         if data['success']:
             return success(request)
         else:
             return error(request)
     elif request.method == 'POST':
         data = request.POST.dict()
+
         if data['success']:
             print "VALID"
             sys.stdout.flush()

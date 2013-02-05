@@ -28,25 +28,35 @@ Created on 25/01/2013
 
 from celery import task
 
+from services import update_salesforce_status
+
 ######################################################
-# PAYMENT DATA ACQUISITION TASKS
+# DATA ACQUISITION TASKS
 ######################################################
 
 @task(ignore_result=True)
-def notify_salesforce_task(state):
-    pass
+def notify_salesforce_task(status, contact_id):
+    update_salesforce_status(status, contact_id)
+
+@task(ignore_result=True)
+def notify_tef_accounts_task(status, contact_id):
+    return update_salesforce_status(status, contact_id)
+
 
 ######################################################
-# PAYMENT DATA ACQUISITION PROCESS
+# DATA ACQUISITION PROCESS
 ######################################################
 
-def start_notify_salesforce(state):
-    chain = notify_salesforce_task.s(state) 
+def start_notify_data_acquisition_result(state):
+    chain = notify_salesforce_task.s(state) | notify_tef_accounts_task.s(state)
             
     chain()
 
-def sync_notify_salesforce(state):
-    notify_salesforce_task(state)
+def sync_notify_data_acquisition_result(state):
+    json = notify_salesforce_task(state)
+    json = notify_tef_accounts_task(state)
+
+    return json
 
 ######################################################
 # RECURRENT CHARGING TASKS
@@ -61,15 +71,25 @@ def notify_backoffice_task(json):
     return json
 
 ######################################################
-# RECURRENT CHARGING PROCESSES
+# RECURRENT PAYMENT PROCESSES
 ######################################################
 
-def start_invoke_gateway(json):
+def start_invoke_gateway(json, p_gw):
     chain = payment_gateway_invocation_task.s(json)
 
     chain()
 
-def start_notify_backoffice(json):
+def sync_invoke_gateway(json, p_gw):
+    result = payment_gateway_invocation_task(json)
+
+    return result
+
+def start_notify_recurrent_payment_results(json):
     chain = notify_backoffice_task.s(json)
 
     chain()
+
+def sync_notify_recurrent_payment_results(json):
+    result = notify_backoffice_task(json)
+
+    return result

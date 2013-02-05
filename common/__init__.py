@@ -2,7 +2,7 @@
 #coding=utf-8 
 
 """
-Copyright 2013 Telefonica Investigación y Desarrollo, S.A.U
+Copyright 2012 Telefonica Investigación y Desarrollo, S.A.U
 
 This file is part of Billing_PoC.
 
@@ -17,15 +17,4 @@ You should have received a copy of the GNU Affero General Public License along w
 If not, see http://www.gnu.org/licenses/.
 
 For those usages not covered by the GNU Affero General Public License please contact with::mac@tid.es
-""" 
-
-'''
-Created on 25/01/2013
-
-@author: mac@tid.es
-'''
-
-from common.salesforce.salesforce import update_contact
-
-def update_salesforce_status(status, contact_id):
-    return update_contact(status, contact_id)
+"""  

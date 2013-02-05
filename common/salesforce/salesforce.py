@@ -1,8 +1,8 @@
 #!/usr/bin/python
-#coding=utf-8 
+# coding=utf-8 
 
 """
-Copyright 2013 Telefonica Investigación y Desarrollo, S.A.U
+Copyright 2012 Telefonica Investigación y Desarrollo, S.A.U
 
 This file is part of Billing_PoC.
 
@@ -17,15 +17,35 @@ You should have received a copy of the GNU Affero General Public License along w
 If not, see http://www.gnu.org/licenses/.
 
 For those usages not covered by the GNU Affero General Public License please contact with::mac@tid.es
-""" 
+"""  
 
 '''
-Created on 25/01/2013
+Created on 04/02/2012
 
 @author: mac@tid.es
 '''
 
-from common.salesforce.salesforce import update_contact
+from sforce.enterprise import SforceEnterpriseClient
 
-def update_salesforce_status(status, contact_id):
-    return update_contact(status, contact_id)
+from os import environ
+
+def connect():
+    c = SforceEnterpriseClient(environ.get('SF_WSDL_PATH'))
+    c.login(environ.get('SF_LOGIN'), environ.get('SF_PWD'), environ.get('SF_TOKEN'))
+    
+    return c
+
+def update_contact(status, contact_id):
+    
+    c = connect()
+
+    print c.retrieve('PaymentState__c', 'Contact', (contact_id))
+
+    new_contact    = c.generateObject('Contact')
+    new_contact.Id = contact_id
+
+    new_contact.PaymentState__c = status
+
+    c.update(new_contact)
+
+    return True

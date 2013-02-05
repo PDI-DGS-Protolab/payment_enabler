@@ -27,14 +27,14 @@ Created on 16/01/2013
 
 import manage
 
-# Loading environment variables prior to initialice django framework
-manage.read_env('../.env')
-
 from django.test import TestCase
 
 from api_format import OrderData, UserData
 from models     import PaymentGateway, MasterInformation, Order
 from services   import initial_payment_url, process_recurrent_payment
+
+# Loading environment variables prior to initialice django framework
+manage.read_env('../.env')
 
 class TestGenerator(TestCase):
     
