@@ -127,6 +127,6 @@ def compute_unique_id():
 
 
 def change_order_status(order_code, status):
-    order = Order.objects.get(order_code=order_code)
+    order = MasterInformation.objects.get(recurrent_order_code=order_code)
     order.status = status
     order.save()
